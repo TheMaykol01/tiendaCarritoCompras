@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AZUL — Sistema administrativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="min-h-screen bg-brand-tint">
+
+  <main class="flex min-h-screen items-center justify-center px-4">
+    <section class="w-full max-w-sm rounded-3xl bg-paper p-8 shadow-xl shadow-brand/10 ring-1 ring-brand-mist">
+      <h1 class="font-display text-2xl font-extrabold tracking-tight text-brand-deep">
+        AZUL<span class="text-brand">.</span> <span class="font-semibold text-ink/70">Admin</span>
+      </h1>
+      <p class="mt-2 mb-6 text-sm text-ink/50">Acceso exclusivo para el personal.</p>
+
+      <form class="space-y-4" method="post" action="#">
+        <label class="block">
+          <span class="mb-1 block text-sm font-medium text-ink/70">Usuario</span>
+          <input type="text" name="usuario" autocomplete="username" required
+                 class="w-full rounded-xl border border-brand-mist bg-brand-tint px-4 py-2.5 text-sm outline-none transition focus:border-brand">
+        </label>
+        <label class="block">
+          <span class="mb-1 block text-sm font-medium text-ink/70">Contraseña</span>
+          <input type="password" name="contrasena" autocomplete="current-password" required
+                 class="w-full rounded-xl border border-brand-mist bg-brand-tint px-4 py-2.5 text-sm outline-none transition focus:border-brand">
+        </label>
+        <button type="submit"
+                class="w-full rounded-full bg-brand py-3 text-sm font-semibold text-paper shadow-lg shadow-brand/25 transition hover:bg-brand-dark">
+          Iniciar sesión
+        </button>
+      </form>
+
+      <a href="index.html" class="mt-6 block text-center text-xs text-ink/40 transition hover:text-brand">← Volver a la tienda</a>
+    </section>
+  </main>
+
+</body>
+</html>
