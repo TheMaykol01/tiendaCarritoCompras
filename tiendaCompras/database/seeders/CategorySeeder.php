@@ -4,42 +4,52 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
     /**
-     * Categories with their related subcategories.
-     *
-     * @var array<string, list<string>>
-     */
-    private const CATEGORIES = [
-        'Electrónica' => ['Teléfonos', 'Computadoras', 'Accesorios'],
-        'Ropa' => ['Camisas', 'Pantalones', 'Zapatos'],
-        'Hogar' => ['Cocina', 'Decoración'],
-    ];
-
-    /**
-     * Seed the application's categories.
+     * Seed the categories used by the store catalog.
      */
     public function run(): void
     {
-        foreach (self::CATEGORIES as $name => $children) {
-            $parent = Category::create([
-                'name' => $name,
-                'slug' => Str::slug($name),
-                'is_active' => true,
-            ]);
+        $categories = [
+            [
+                'name' => 'Computación',
+                'slug' => 'computacion',
+                'description' => 'Laptops, teclados y ratones para trabajar y estudiar.',
+            ],
+            [
+                'name' => 'Audio',
+                'slug' => 'audio',
+                'description' => 'Audífonos y parlantes con cancelación de ruido.',
+            ],
+            [
+                'name' => 'Wearables',
+                'slug' => 'wearables',
+                'description' => 'Relojes inteligentes y accesorios que te acompañan.',
+            ],
+            [
+                'name' => 'Móviles',
+                'slug' => 'moviles',
+                'description' => 'Teléfonos de última generación con garantía local.',
+            ],
+            [
+                'name' => 'Fotografía',
+                'slug' => 'fotografia',
+                'description' => 'Cámaras, lentes y accesorios para capturar cada momento.',
+            ],
+        ];
 
-            foreach ($children as $childName) {
-                Category::create([
-                    'name' => $childName,
-                    'slug' => Str::slug($childName),
-                    'description' => Str::headline("Subcategoría de {$name}"),
-                    'parent_id' => $parent->id,
+        foreach ($categories as $category) {
+            Category::updateOrCreate(
+                ['slug' => $category['slug']],
+                [
+                    'name' => $category['name'],
+                    'description' => $category['description'],
+                    'parent_id' => null,
                     'is_active' => true,
-                ]);
-            }
+                ],
+            );
         }
     }
 }

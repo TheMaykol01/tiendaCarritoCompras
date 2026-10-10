@@ -67,7 +67,10 @@ function cartTotalItems() {
 
 function cartTotalPrice() {
   let total = 0;
-  for (const [id, quantity] of cart) total += productById(id).price * quantity;
+  for (const [id, quantity] of cart) {
+    const product = productById(id);
+    if (product) total += product.price * quantity;
+  }
   return total;
 }
 
@@ -88,12 +91,13 @@ function renderCartItems() {
   }
 
   cartItems.innerHTML = [...cart]
+    .filter(([id]) => productById(id))
     .map(([id, quantity]) => {
       const product = productById(id);
       return `
       <article class="cart-item">
         <div class="cart-item__thumb">
-          <svg class="icon--md" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">${product.icon}</svg>
+          <svg class="icon--md" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="14" height="12" rx="2"/><path d="M9 7V5h6v2"/></svg>
         </div>
         <div class="cart-item__info">
           <p class="cart-item__name">${product.name}</p>
@@ -130,11 +134,15 @@ function popCartBadge() {
 }
 
 function updateCatalogCount() {
+  if (!productGrid || !catalogCount) return;
+
   const visible = [...productGrid.querySelectorAll("[data-product-id]")].filter((c) => !c.hidden);
   catalogCount.textContent = visible.length === 1 ? "1 producto" : `${visible.length} productos`;
 }
 
 function applyFilters() {
+  if (!productGrid) return;
+
   const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
 
   for (const card of productGrid.querySelectorAll("[data-product-id]")) {
@@ -148,25 +156,9 @@ function applyFilters() {
   updateCatalogCount();
 }
 
-function renderCategoryChips() {
+function markActiveChip(value) {
   if (!categoryChips) return;
 
-  const categories = [...new Set([...catalog.values()].map((p) => p.category))];
-  const options = [{ label: "Todo", value: "" }, ...categories.map((c) => ({ label: c, value: c }))];
-
-  categoryChips.replaceChildren();
-
-  for (const { label, value } of options) {
-    const chip = document.createElement("button");
-    chip.type = "button";
-    chip.className = "chip";
-    chip.dataset.category = value;
-    chip.textContent = label;
-    categoryChips.append(chip);
-  }
-}
-
-function markActiveChip(value) {
   for (const chip of categoryChips.querySelectorAll(".chip")) {
     chip.classList.toggle("chip--active", chip.dataset.category === value);
   }
@@ -231,6 +223,8 @@ function bindEvents() {
     });
   }
 
+  if (!cartButton) return;
+
   cartItems.addEventListener("click", (event) => {
     const step = event.target.closest("[data-change-quantity]");
     if (step) {
@@ -254,12 +248,13 @@ function bindEvents() {
   });
 }
 
-const stored = loadCart();
-for (const [id, quantity] of stored) cart.set(id, quantity);
-
 hydrateCatalog();
-renderCategoryChips();
 markActiveChip("");
 updateCatalogCount();
-refreshCartViews();
-bindEvents();
+
+if (cartButton) {
+  for (const [id, quantity] of loadCart()) cart.set(id, quantity);
+
+  refreshCartViews();
+  bindEvents();
+}
