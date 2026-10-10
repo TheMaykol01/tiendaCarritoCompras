@@ -13,6 +13,34 @@
                     'current' => request()->routeIs('dashboard'),
                     'url' => route('dashboard'),
                 ],
+                [
+                    'icon' => 'folder-git-2',
+                    'name' => 'products',
+                    'route' => route('products.index'),
+                    'current' => request()->routeIs('products.*'),
+                    'url' => route('products.index'),
+                ],
+                [
+                    'icon' => 'layout-grid',
+                    'name' => 'categories',
+                    'route' => route('categories.index'),
+                    'current' => request()->routeIs('categories.*'),
+                    'url' => route('categories.index'),
+                ],
+                [
+                    'icon' => 'archive-box',
+                    'name' => 'batches',
+                    'route' => route('batches.index'),
+                    'current' => request()->routeIs('batches.*'),
+                    'url' => route('batches.index'),
+                ],
+                [
+                    'icon' => 'qr-code',
+                    'name' => 'inventory',
+                    'route' => route('inventory.index'),
+                    'current' => request()->routeIs('inventory.*'),
+                    'url' => route('inventory.index'),
+                ],
             ]      
 
         ]
@@ -139,6 +167,7 @@
 
         {{ $slot }}
 
+        @stack('scripts')
         @fluxScripts
     </body>
 </html>

@@ -10,7 +10,7 @@
             <nav aria-label="Enlaces">
                 <p class="site-footer__heading">Tienda</p>
                 <ul class="site-footer__list">
-                    <li><a class="site-footer__link" href="{{ route('products') }}">Productos</a></li>
+                    <li><a class="site-footer__link" href="{{ route('catalog') }}">Productos</a></li>
                     <li><a class="site-footer__link" href="{{ route('stores') }}">Sucursales</a></li>
                     <li><a class="site-footer__link" href="{{ route('about') }}">Nosotros</a></li>
                 </ul>

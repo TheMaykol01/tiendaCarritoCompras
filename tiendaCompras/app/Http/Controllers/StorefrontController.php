@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Catalog\Catalog;
+use App\Models\Product;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,9 +23,15 @@ class StorefrontController extends Controller
      */
     public function products(): View
     {
+        $products = Product::query()
+            ->active()
+            ->withSum('batches as available_stock', 'quantity')
+            ->orderBy('name')
+            ->get();
+
         return view('storefront.products', [
-            'products' => Catalog::products(),
-            'categories' => Catalog::categories(),
+            'products' => $products,
+            'categories' => $products->pluck('category')->unique()->sort()->values(),
         ]);
     }
 

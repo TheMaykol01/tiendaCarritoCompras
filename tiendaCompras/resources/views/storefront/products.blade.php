@@ -1,4 +1,4 @@
-<x-storefront.layout title="Productos" description="Catálogo AZUL: laptops, audio, wearables y más con envío en 24h." active="products">
+<x-storefront.layout title="Productos" description="Catálogo AZUL: laptops, audio, wearables y más con envío en 24h." active="catalog">
     <div class="container page">
         <section aria-labelledby="catalog-title">
             <div class="catalog__header">
@@ -24,7 +24,8 @@
             </div>
 
             <div id="product-grid" class="product-grid">
-                @foreach ($products as $product)
+                @forelse ($products as $product)
+                    @php($availableStock = (int) ($product->available_stock ?? 0))
                     <article
                         class="product-card"
                         data-product-id="{{ $product->id }}"
@@ -33,19 +34,22 @@
                         data-product-category="{{ $product->category }}"
                     >
                         <div class="product-card__media">
-                            <svg class="product-card__icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">{!! \App\Catalog\Catalog::ICONS[$product->icon] !!}</svg>
+                            <svg class="product-card__icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">{!! \App\Catalog\Catalog::ICONS[$product->icon] ?? '' !!}</svg>
                             <span class="product-card__tag">{{ $product->category }}</span>
                         </div>
                         <div class="product-card__body">
                             <h3 class="product-card__name">{{ $product->name }}</h3>
                             <p class="product-card__price">${{ number_format($product->price, 2) }}</p>
                             <button type="button" data-add-to-cart="{{ $product->id }}"
+                                    @disabled($availableStock === 0)
                                     class="btn btn--dark btn--block btn--small product-card__cta">
-                                Agregar al carrito
+                                {{ $availableStock === 0 ? 'Sin inventario' : 'Agregar al carrito' }}
                             </button>
                         </div>
                     </article>
-                @endforeach
+                @empty
+                    <p class="product-empty">No hay productos disponibles en este momento.</p>
+                @endforelse
             </div>
         </section>
     </div>

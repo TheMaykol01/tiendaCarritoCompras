@@ -17,7 +17,7 @@
                 </p>
 
                 <div class="hero__actions">
-                    <a @class(['btn', 'btn--primary']) href="{{ route('products') }}">Ver productos</a>
+                    <a @class(['btn', 'btn--primary']) href="{{ route('catalog') }}">Ver productos</a>
                     <a @class(['btn', 'btn--outline']) href="{{ route('stores') }}">Encuéntranos</a>
                 </div>
             </div>

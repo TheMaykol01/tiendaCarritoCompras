@@ -49,6 +49,15 @@
     border-color: var(--border-subtle);
 }
 
+/* Los layouts del panel llevan .app-body o .page-body en el propio <body>,
+   así que un selector de clase basta y no depende del orden de importación
+   con las hojas del storefront. */
+body.app-body,
+body.page-body {
+    color: var(--text-body);
+    background-color: var(--surface-page);
+}
+
 body {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -178,6 +187,7 @@ body {
     background-color: var(--surface-page);
 }
 
+
 .settings-layout {
     display: flex;
     align-items: flex-start;
@@ -231,6 +241,22 @@ body {
 .field__label {
     font-weight: 500;
     font-size: 0.875rem;
+}
+
+.field__control {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    background-color: var(--surface-card);
+    color: var(--text-strong);
+    font: inherit;
+    font-size: 0.875rem;
+}
+
+.field__control:focus {
+    outline: 2px solid var(--color-accent, #3b82f6);
+    outline-offset: 1px;
 }
 
 .field__relative {
@@ -399,6 +425,11 @@ body {
     background-color: #b91c1c;
 }
 
+.button--compact {
+    padding: 0.25rem 0.625rem;
+    font-size: 0.8125rem;
+}
+
 .button--text {
     background: none;
     color: var(--text-muted);
@@ -523,3 +554,25 @@ body {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* 9. Inventario ========================================================== */
+
+.barcode-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    background-color: #ffffff;
+}
+
+.scanner {
+    width: 100%;
+    max-width: 22rem;
+    margin-inline: auto;
+}
+
+.scanner:empty {
+    display: none;
+}
+

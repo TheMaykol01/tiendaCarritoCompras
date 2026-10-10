@@ -9,7 +9,7 @@
         <nav aria-label="Principal" class="site-nav">
             @foreach ([
                 'home' => 'Inicio',
-                'products' => 'Productos',
+                'catalog' => 'Productos',
                 'stores' => 'Sucursales',
                 'about' => 'Nosotros',
                 'contact' => 'Contacto',
