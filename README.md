@@ -7,24 +7,48 @@ Tienda online con carrito de compras y sistema administrativo para el personal. 
 
 ## Tecnologías
 
-**Frontend:** HTML, CSS con Tailwind CSS v4, JavaScript
+**Frontend:** Blade, CSS vanilla, JavaScript
 
-**Backend (próximamente):** PHP con Laravel, MySQL, Redis, Docker
+**Backend:** PHP 8.2 con Laravel 12, Livewire/Volt, MySQL
 
 ## Estructura
 
 ```
-├── index.html      # Tienda con carrito
-├── admin.html      # Login del sistema administrativo
-├── js/app.js       # Catálogo, carrito y render
-├── css/input.css   # Tokens del tema (Tailwind v4)
-└── css/app.css     # CSS compilado
+└── tiendaCompras/            # Aplicación Laravel
+    ├── app/
+    │   ├── Catalog/           # Catálogo y sucursales (constantes PHP)
+    │   └── Http/Controllers/  # StorefrontController
+    ├── resources/
+    │   ├── css/               # app.css (entrypoint), admin.css, storefront.css
+    │   ├── js/app.js          # Carrito, filtros y búsqueda
+    │   └── views/
+    │       ├── components/storefront/  # Layout, header y footer del.store
+    │       ├── livewire/               # Componentes Volt (auth, settings, categorías)
+    │       └── storefront/             # Páginas públicas
+    └── routes/web.php
 ```
 
-## Comandos
+## Páginas
+
+| Ruta           | Descripción                     |
+| -------------- | ------------------------------- |
+| `/`            | Portada                         |
+| `/productos`   | Catálogo con carrito             |
+| `/sucursales`  | Sucursales y delivery           |
+| `/nosotros`    | Misión y visión                 |
+| `/contacto`    | Formulario de contacto          |
+| `/dashboard`   | Panel (requiere autenticación)  |
+| `/categories`  | Gestión de categorías           |
+
+## Desarrollo
 
 ```bash
-npm install     # instalar dependencias
-npm run dev     # Tailwind en vivo + servidor en localhost:3000
-npm run build   # compilar CSS para producción
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
 ```
+
+Para los estilos: `npm run dev` (recarga) o `npm run build` (producción).
