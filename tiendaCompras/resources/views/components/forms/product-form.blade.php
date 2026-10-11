@@ -93,6 +93,37 @@
         </div>
     </div>
 
+    @if ($product === null)
+        <div class="stack--tight">
+            @error('initial_quantity')
+                <p class="text-danger text-sm">{{ $message }}</p>
+            @enderror
+            <label class="field">
+                <span class="field__label">Unidades disponibles</span>
+                <input
+                    type="number"
+                    name="initial_quantity"
+                    value="{{ old('initial_quantity', 10) }}"
+                    required
+                    step="1"
+                    min="0"
+                    placeholder="10"
+                    class="field__control"
+                />
+                <span class="text-xs text-muted">Se guarda como el primer lote del producto, con su código de barras.</span>
+            </label>
+        </div>
+    @else
+        <div class="stack--tight">
+            <span class="field__label">Unidades disponibles</span>
+            <p class="text-strong">{{ (int) ($product->available_stock ?? 0) }} unidad(es)</p>
+            <span class="text-xs text-muted">
+                El inventario se ajusta desde la ficha del producto o en
+                <a href="{{ route('batches.index') }}" class="link link--tight">Inventario</a>.
+            </span>
+        </div>
+    @endif
+
     <label class="field">
         <span class="field__label">Descripción</span>
         <textarea

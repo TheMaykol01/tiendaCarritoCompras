@@ -89,6 +89,14 @@ class Batch extends Model
     }
 
     /**
+     * Determine whether the batch can give up the given amount of units.
+     */
+    public function hasStockFor(int $quantity): bool
+    {
+        return $this->quantity >= $quantity;
+    }
+
+    /**
      * Build a batch number or barcode that is not already taken.
      */
     protected static function uniqueValue(string $prefix, string $column): string

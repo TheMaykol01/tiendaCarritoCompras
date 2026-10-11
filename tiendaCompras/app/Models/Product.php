@@ -62,4 +62,14 @@ class Product extends Model
     {
         return $this->hasMany(Batch::class);
     }
+
+    /**
+     * The batch that receives the stock movements made from the product card,
+     * created on demand when the product has no batches yet.
+     */
+    public function stockBatch(): Batch
+    {
+        return $this->batches()->latest('id')->first()
+            ?? $this->batches()->create(['quantity' => 0]);
+    }
 }

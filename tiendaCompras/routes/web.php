@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('categories', 'categories.index')->name('categories.index');
 
     Route::resource('products', ProductController::class)->except('show');
+    Route::post('products/{product}/stock', [InventoryController::class, 'adjustProduct'])->name('products.stock');
     Route::resource('batches', BatchController::class)->except(['show', 'edit', 'update']);
     Route::get('batches/{batch}/barcode', [BatchController::class, 'barcode'])->name('batches.barcode');
 

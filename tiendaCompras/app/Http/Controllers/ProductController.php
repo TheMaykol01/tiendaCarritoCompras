@@ -37,7 +37,11 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request): RedirectResponse
     {
-        Product::create($this->withGeneratedFields($request));
+        $product = Product::create($this->withGeneratedFields($request));
+
+        if ($request->integer('initial_quantity') > 0) {
+            $product->batches()->create(['quantity' => $request->integer('initial_quantity')]);
+        }
 
         return redirect()
             ->route('products.index')
@@ -50,7 +54,7 @@ class ProductController extends Controller
     public function edit(Product $product): View
     {
         return view('livewire.products.edit', [
-            'product' => $product,
+            'product' => $product->loadSum('batches as available_stock', 'quantity'),
         ]);
     }
 
@@ -85,7 +89,10 @@ class ProductController extends Controller
      */
     private function withGeneratedFields(ProductRequest $request): array
     {
-        return array_merge($request->validated(), [
+        $attributes = $request->validated();
+        unset($attributes['initial_quantity']);
+
+        return array_merge($attributes, [
             'slug' => $this->uniqueSlug($request->string('name')),
             'icon' => $this->pickIcon($request->string('category')),
         ]);

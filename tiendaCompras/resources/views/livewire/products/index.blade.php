@@ -10,6 +10,10 @@
             <div class="card text-success">{{ session('status') }}</div>
         @endif
 
+        @error('quantity')
+            <div class="card text-danger text-sm">{{ $message }}</div>
+        @enderror
+
         <div class="form-actions form-actions--between">
             <p class="text-sm text-muted">{{ $products->total() }} producto(s) en el catálogo</p>
             <a href="{{ route('products.create') }}" class="button button--primary">Agregar producto</a>
@@ -22,6 +26,7 @@
         @else
             <div class="settings-grid">
                 @foreach ($products as $product)
+                    @php($availableStock = (int) ($product->available_stock ?? 0))
                     <article class="card card__body stack--tight">
                         <div class="form-actions form-actions--between">
                             <h2 class="text-strong">{{ $product->name }}</h2>
@@ -36,9 +41,42 @@
 
                         <p class="text-sm text-muted">{{ $product->category }} · {{ $product->sku }}</p>
                         <p class="text-strong">${{ number_format($product->price, 2) }}</p>
-                        <p class="text-xs text-muted">
-                            Inventario: {{ $product->available_stock ?? 0 }} unidad(es)
-                        </p>
+
+                        <div class="form-actions form-actions--between">
+                            <span class="text-strong">{{ $availableStock }} unidad(es)</span>
+                            <span @class([
+                                'text-xs',
+                                'text-success' => $availableStock > 5,
+                                'text-danger' => $availableStock === 0,
+                            ])>
+                                {{ match (true) {
+                                    $availableStock === 0 => 'Sin existencias',
+                                    $availableStock <= 5 => 'Pocas existencias',
+                                    default => 'En stock',
+                                } }}
+                            </span>
+                        </div>
+
+                        <form method="POST" action="{{ route('products.stock', $product) }}" class="form-actions">
+                            @csrf
+                            <label class="sr-only" for="units-{{ $product->id }}">Unidades a mover</label>
+                            <input
+                                id="units-{{ $product->id }}"
+                                type="number"
+                                name="quantity"
+                                value="1"
+                                min="1"
+                                step="1"
+                                required
+                                class="field__control field__control--units"
+                            />
+                            <button type="submit" name="type" value="in" class="button button--outline button--compact">
+                                + Entrada
+                            </button>
+                            <button type="submit" name="type" value="out" class="button button--outline button--compact">
+                                &minus; Salida
+                            </button>
+                        </form>
 
                         <div class="form-actions form-actions--between">
                             <a href="{{ route('products.edit', $product) }}" class="button button--outline button--compact">Editar</a>

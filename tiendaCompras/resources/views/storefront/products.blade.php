@@ -40,6 +40,14 @@
                         <div class="product-card__body">
                             <h3 class="product-card__name">{{ $product->name }}</h3>
                             <p class="product-card__price">${{ number_format($product->price, 2) }}</p>
+                            <p @class([
+                                'product-card__stock',
+                                'product-card__stock--low' => $availableStock > 0 && $availableStock <= 5,
+                            ])>
+                                {{ $availableStock === 0
+                                    ? 'Sin unidades disponibles'
+                                    : trans_choice('{1} :count unidad disponible|[2,*] :count unidades disponibles', $availableStock, ['count' => $availableStock]) }}
+                            </p>
                             <button type="button" data-add-to-cart="{{ $product->id }}"
                                     @disabled($availableStock === 0)
                                     class="btn btn--dark btn--block btn--small product-card__cta">

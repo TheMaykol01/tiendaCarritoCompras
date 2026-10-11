@@ -34,6 +34,12 @@ class ProductRequest extends FormRequest
             ],
             'category' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
+            'initial_quantity' => [
+                $this->isMethod('POST') ? 'required' : 'nullable',
+                'integer',
+                'min:0',
+                'max:1000000',
+            ],
             'description' => ['nullable', 'string', 'max:1000'],
             'is_active' => ['boolean'],
         ];
@@ -49,6 +55,10 @@ class ProductRequest extends FormRequest
         return [
             'sku.unique' => 'Ese SKU ya está registrado en otro producto.',
             'price.min' => 'El precio no puede ser negativo.',
+            'initial_quantity.required' => 'Indica cuántas unidades tiene el producto.',
+            'initial_quantity.integer' => 'Las unidades deben ser un número entero.',
+            'initial_quantity.min' => 'Las unidades no pueden ser negativas.',
+            'initial_quantity.max' => 'La cantidad de unidades es demasiado alta.',
         ];
     }
 

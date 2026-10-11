@@ -259,6 +259,11 @@ body {
     outline-offset: 1px;
 }
 
+.field__control--units {
+    flex: 0 0 auto;
+    width: 5rem;
+}
+
 .field__relative {
     position: relative;
 }

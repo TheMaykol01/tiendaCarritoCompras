@@ -946,6 +946,17 @@ textarea.field__control {
   margin-top: 1rem;
 }
 
+.product-card__stock {
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  color: var(--ink-50);
+}
+
+.product-card__stock--low {
+  color: var(--brand);
+  font-weight: 600;
+}
+
 .product-empty {
   grid-column: 1 / -1;
   padding-block: 4rem;
